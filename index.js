@@ -21,6 +21,10 @@ else{
   dir = process.cwd()
 }
 
+if(orgv.d){
+  dir = orgv.d
+}
+
 if(orgv.e){
   app = orgv.e
 }

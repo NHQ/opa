@@ -24,7 +24,7 @@ npm install -g opa
 ```
 # Example
 
-defaults to current directory, so you can simply"
+opa defaults to the current directory, so you can simply
 ``` bash
 $ cd app/
 $ opa
@@ -46,7 +46,7 @@ open http://localhost:3000
 -o bundled file. defaults to bundle.js
 -w sets watch to FALSE. defaults to true
 -d the app directory. defaults to the current directory. This can also be passed as the first argument w/o '-d'
-e```
+```
 
 # license
 
