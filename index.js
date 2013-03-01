@@ -2,6 +2,7 @@
 var http = require('http')
 ,   static = require('ecstatic')
 ,   bff = require('browserify')
+,   path = require('path')
 ,   orgv = require('optimist').argv
 ,   fs = require('fs')
 ,   port = orgv.p || 11001
@@ -49,9 +50,13 @@ var bfopts = {
 
 var bundle = bff(bfopts);
 
+console.log(fs.readFileSync(process.cwd() + '/' + app).toString('utf8'));
+
 bundle.addEntry(dir + '/' + app);
 
 bundle.on('bundle', write)
+
+bundle.on('syntaxError', console.error);
 
 function write(cb){
   fs.writeFile(dir + '/'+ public  +'/' + output, bundle.bundle(), cb || function(){})
