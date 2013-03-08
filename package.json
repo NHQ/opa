@@ -15,6 +15,7 @@
   "dependencies": {
     "ecstatic":"",
     "browserify":"",
-    "optimist":""
+    "optimist":"",
+    "brfs":""
   }
 }

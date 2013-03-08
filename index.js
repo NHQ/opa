@@ -14,6 +14,8 @@ var http = require('http')
 ,   dir
 ;
 
+//bff.tansform('brfs');
+
 if(process.argv[2] && process.argv[2].charAt(0).match(/[A-Za-z0-9]+/g)){
   dir = cwd + '/' + process.argv[2]
 }
@@ -34,8 +36,6 @@ if(orgv.o){
   output = orgv.o
 }
 
-console.log(dir, orgv)
-
 var contents = fs.readdirSync(dir);
 
 contents.forEach(function(e){
@@ -49,8 +49,6 @@ var bfopts = {
 }
 
 var bundle = bff(bfopts);
-
-console.log(fs.readFileSync(process.cwd() + '/' + app).toString('utf8'));
 
 bundle.addEntry(dir + '/' + app);
 
