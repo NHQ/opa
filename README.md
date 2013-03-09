@@ -1,6 +1,6 @@
 # opa
 
-A quick command line server for prototyping [browserified](https://github.com/substack/node-browserify) front end modules and apps. 
+A quick command line server for prototyping [browserified](https://github.com/substack/node-browserify) front end modules and apps.
 
 Basically this modules replaces the two step process of browseriflying your bundle and running a static server.
 
@@ -22,7 +22,7 @@ If you have an app directory...
 ... opa will write your bundle to the public/static directory, and serve files from it, using [ecstatic](https://github.com/jesusabdullah/node-ecstatic).
 
 ```bash 
-npm install -g opa
+npm install -g browserify opa
 ```
 # Example
 
