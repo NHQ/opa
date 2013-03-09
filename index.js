@@ -66,3 +66,7 @@ var server = http.createServer(function(req, res){
 });
 
 server.listen(port);
+
+server.on('listening', function(){
+	console.log('server running at http://localhost:' + port)
+})
