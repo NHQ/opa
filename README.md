@@ -4,7 +4,7 @@ A quick command line server for prototyping [browserified](https://github.com/su
 
 Basically this modules replaces the two step process of browseriflying your bundle and running a static server.
 
-opa uses the newest version of browserify, and also uses the [brfs](https://github.com/substack/brfs) [transform](https://github.com/substack/node-browserify#btransformtr) to automatically turn for fs.readFileSync() of any file into strings you can use in your code.
+opa uses the newest version of browserify, and also uses the [brfs](https://github.com/substack/brfs) [transform](https://github.com/substack/node-browserify#btransformtr) to turn fs.readFileSync() of any file (such as an html snippet) into strings you can use in your code.
 
 I use it with this little boiler code repo called [beaker](https://github.com/nhq/beaker)
 
