@@ -41,6 +41,7 @@ contents.forEach(function(e){
   var x  = e.toLowerCase()
   if(x=='www') public = e;
   else if(x=='public') public = e;
+  else if(x=='entry.js') app = e;
 })
 
 var opts = {
@@ -58,7 +59,7 @@ var server = http.createServer(function(req, res){
 	  res.writeHead(200, {'Content-Type': 'text/javascript'});
 		var b = spawn('browserify', ['-e', app, '-t', 'brfs']);
 		b.stdout.pipe(res);
-		b.stdout.on('syntaxError', console.error);
+		b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
   }
 
 	else StaticPass(req, res)
