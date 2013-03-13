@@ -1,10 +1,10 @@
 {
   "name": "opa",
-  "version": "0.4.4",
+  "version": "1.0.0",
   "description": "command line server + browserify",
   "main": "index.js",
-  "bin" : {
-      "opa" : "index.js"
+  "bin": {
+    "opa": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,7 +13,7 @@
   "author": "Johnny Honestly <mostmodernist@gmail.com> (http://johnnyscript.us/)",
   "license": "MIT",
   "dependencies": {
-    "ecstatic":"",
-    "optimist":""
+    "ecstatic": "",
+    "optimist": ""
   }
 }
