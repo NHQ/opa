@@ -27,10 +27,6 @@ if(orgv.d){
   dir = orgv.d
 }
 
-if(orgv.e){
-  app = orgv.e
-}
-
 if(orgv.o){
   output = orgv.o
 }
@@ -43,6 +39,10 @@ contents.forEach(function(e){
   else if(x=='public') public = e;
   else if(x=='entry.js') app = e;
 })
+
+if(orgv.e){
+  app = orgv.e
+}
 
 var opts = {
     root       : dir + '/' + public, 
