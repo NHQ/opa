@@ -2,6 +2,7 @@
 var http = require('http')
 ,   ecstatic = require('ecstatic')
 ,   path = require('path')
+,   net = require('net')
 ,   orgv = require('optimist').argv
 ,   fs = require('fs')
 ,   spawn = require('child_process').spawn
@@ -44,9 +45,13 @@ if(orgv.e){
   app = orgv.e
 }
 
+if(orgv.n){ // no public, use local
+	public = 'public';
+  dir = __dirname;
+}
+
 var opts = {
     root       : dir + '/' + public, 
-    baseDir    : '/',
     autoIndex  : true,
     defaultExt : 'html'
 }
@@ -68,6 +73,32 @@ var server = http.createServer(function(req, res){
 
 server.listen(port);
 
+server.on('error', function(e){
+	if (e.code == 'EADDRINUSE') {
+		console.log('port ' + port + ' occupied. Use -p to set another port.')
+		process.exit();
+	}
+});
+
 server.on('listening', function(){
 	console.log('server running at http://localhost:' + port)
-})
+});
+
+
+function isPortTaken(PORT, callback) {
+  var tester = net.createServer()
+  tester.once('error', function (err) {
+    if (err.code == 'EADDRINUSE') {
+      callback(null, true)
+    } else {
+      callback(err)
+    }
+  })
+  tester.once('listening', function() {
+    tester.once('close', function() {
+      callback(null, false)
+    })
+    tester.close()
+  })
+  tester.listen(PORT)
+}
