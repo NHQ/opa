@@ -53,10 +53,10 @@ $ cd app/
 $ opa
 open http://localhost:11001
 ```
-or pass a directory as the first argument
+or use it on a single file and it will be served in an empty HTML file 
 ```bash
 /app$ cd ..
-$ opa app/ -p 3000 -e entry.js -o app.js -s www/
+$ opa -n -p 3000
 open http://localhost:3000
 ```
 
