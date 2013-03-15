@@ -81,7 +81,11 @@ server.on('error', function(e){
 });
 
 server.on('listening', function(){
-	console.log('server running at http://localhost:' + port)
+
+  if(!orgv.n) console.log('Server listening at http://localhost:' + port)
+
+	else console.log('An empty html page with your module is being served at http://localhost:' + port)
+
 });
 
 

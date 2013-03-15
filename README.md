@@ -1,12 +1,31 @@
-# opa
+# OPA!
 
-A quick command line server for prototyping [browserified](https://github.com/substack/node-browserify) front end modules and apps.
+A quick command line bundler for prototyping front-end modules using [browserify](https://github.com/substack/node-browserify)
 
-Basically this modules replaces the two step process of browseriflying your bundle and running a static server.
+```bash
+npm install -g browserify opa
+```
 
-opa uses the newest version of browserify, and also uses the [brfs](https://github.com/substack/brfs) [transform](https://github.com/substack/node-browserify#btransformtr) to turn fs.readFileSync() of any file (such as an html snippet) into strings you can use in your code.
+Just whip up a module and 
+```bash
+opa -n -e *your-module.js*
+// server running at http://localhost:11001
+```
+OPA will bundle your file, and serve it in an index.html
+If you have a static directory already, opa will write the bundle to it
+OPA!
 
-I use it with this little boiler code repo called [beaker](https://github.com/nhq/beaker)
+## options
+```
+-e [path to file.js] : declare your entry file, default looks for entry.js or index.js
+-o [path to bundled file.js] : sets your bundle path, defaults to bundle.js
+-s [static dir] : set the root dir for your public directory, defaults looks for static/ or public/
+-n : tells opa you don't have a static dir, so it uses its own to serve your bundle
+-p [port number] : set port number, defaults to 11001
+-d the app directory. defaults to the current directory. This can also be passed as the first argument w/o '-d'
+```
+
+OPA uses the newest version of browserify, and also uses the [brfs](https://github.com/substack/brfs) [transform](https://github.com/substack/node-browserify#btransformtr) to turn fs.readFileSync() of any file (such as an html snippet) into strings you can use in your code.
 
 If you have an app directory...
 
@@ -16,14 +35,16 @@ If you have an app directory...
     /css/style.css
     index.html
   /lib
-  index.js
+  entry.js|index.js
+```
+just
+```
+cd myApp/
+opa
 ```
 
-... opa will write your bundle to the public/static directory, and serve files from it, using [ecstatic](https://github.com/jesusabdullah/node-ecstatic).
+opa will write your bundle to the public/static directory, and serve files from it, using [ecstatic](https://github.com/jesusabdullah/node-ecstatic).
 
-```bash 
-npm install -g browserify opa
-```
 # Example
 
 opa defaults to the current directory, so you can simply
@@ -35,19 +56,8 @@ open http://localhost:11001
 or pass a directory as the first argument
 ```bash
 /app$ cd ..
-$ opa app/ -p 3000 -e entry.js -o app.js
+$ opa app/ -p 3000 -e entry.js -o app.js -s www/
 open http://localhost:3000
-```
-
-# options
-
-```
--e entry file, defaults to index.js
--p port, defaults to 11001
--s directory to serve static file from. defaults to either "public", "www", or "static".
--o bundled file. defaults to bundle.js
--w sets watch to FALSE. defaults to true
--d the app directory. defaults to the current directory. This can also be passed as the first argument w/o '-d'
 ```
 
 # license
