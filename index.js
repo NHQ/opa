@@ -62,7 +62,8 @@ var server = http.createServer(function(req, res){
 
   if(req.url === '/' + output){
 	  res.writeHead(200, {'Content-Type': 'text/javascript'});
-		var b = spawn('browserify', ['-e', app, '-t', 'brfs']);
+console.log('HUP HUP GUP');
+		var b = spawn('browserify', ['-e', app, '-t', 'brfs', '-d']);
 		b.stdout.pipe(res);
 		b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
   }
