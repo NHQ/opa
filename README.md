@@ -1,9 +1,9 @@
 # OPA!
 
-A quick command line bundler for prototyping front-end modules using [browserify](https://github.com/substack/node-browserify)
+A quick command line bundler for prototyping front-end modules using [browserify](https://github.com/substack/node-browserify). As of the latest version of OPA, it uses browserify via [watchify](https://github.com/substack/watchify)
 
 ```bash
-npm install -g browserify opa
+npm install -g watchify opa
 ```
 
 Just whip up a module and 

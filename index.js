@@ -12,6 +12,7 @@ var http = require('http')
 ,   output = 'bundle.js'
 ,   app = 'index.js'
 ,   cwd = process.cwd()
+,   command = 'watchify'
 ,   dir
 ;
 
@@ -30,6 +31,10 @@ if(orgv.d){
 
 if(orgv.o){
   output = orgv.o
+}
+
+if(orgv.w){
+  command = 'browserify'
 }
 
 var contents = fs.readdirSync(dir);
@@ -57,19 +62,26 @@ var opts = {
 }
 
 var StaticPass = ecstatic(opts);
+var b = spawn('watchify', ['-e', app, '-t', 'brfs', '-o', output, '-d'])
+b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
 
 var server = http.createServer(function(req, res){
 
-  if(req.url === '/' + output){
-	  res.writeHead(200, {'Content-Type': 'text/javascript'});
+    if(req.url === '/' + output){
+	fs.createReadStream(dir + '/' + output).pipe(res)
+    }
 
-		var b = spawn('browserify', ['-e', app, '-t', 'brfs', '-d']);
-		b.stdout.pipe(res);
-		b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
-  }
+/*
+    if(req.url === '/' + output){
+	res.writeHead(200, {'Content-Type': 'text/javascript'});
+	var b = spawn(command, ['-e', app, '-t', 'brfs', '-d']);
+	b.stdout.pipe(res);
+	b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
+    }
+*/
 
-	else StaticPass(req, res)
-	
+    else StaticPass(req, res)
+    
 });
 
 server.listen(port);
