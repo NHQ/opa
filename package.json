@@ -1,6 +1,6 @@
 {
   "name": "opa",
-  "version": "9.0.0",
+  "version": "10.0.0",
   "description": "command line server + browserify",
   "main": "index.js",
   "bin": {

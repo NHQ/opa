@@ -16,6 +16,13 @@ var http = require('http')
 ,   dir
 ;
 
+if(orgv.c){
+	fs.mkdirSync(path.resolve('./', orgv.c))
+	fs.writeFileSync(path.resolve('./', orgv.c) + '/index.js')
+	fs.writeFileSync(path.resolve('./', orgv.c) + '/entry.js')
+	spawn('cp', ['-R', __dirname + '/public', path.resolve('./', orgv.c)])
+	return
+}
 
 if(process.argv[2] && process.argv[2].charAt(0).match(/[A-Za-z0-9]+/g)){
   dir = cwd + '/' + process.argv[2]
@@ -23,10 +30,6 @@ if(process.argv[2] && process.argv[2].charAt(0).match(/[A-Za-z0-9]+/g)){
 
 else{
   dir = process.cwd()
-}
-
-if(orgv.d){
-  dir = orgv.d
 }
 
 if(orgv.o){
@@ -42,8 +45,8 @@ var contents = fs.readdirSync(dir);
 contents.forEach(function(e){
   var x  = e.toLowerCase()
   if(x=='www') public = e;
-  else if(x=='public') public = e;
-  else if(x=='entry.js') app = e;
+  else if(x=='public') public = e;  
+  if(x=='entry.js') app = e;
 })
 
 if(orgv.e){
@@ -51,7 +54,7 @@ if(orgv.e){
 }
 
 if(orgv.n){ // no public, use local
-	public = 'public';
+  public = 'public';
   dir = __dirname;
 }
 
@@ -62,13 +65,18 @@ var opts = {
 }
 
 var StaticPass = ecstatic(opts);
-var b = spawn('watchify', ['-e', app, '-t', 'brfs', '-o', output, '-d'])
+
+var oargs =  ['-e', app, '-t', 'brfs', '-o', output]
+
+if(orgv.d) oargs.push('-d')
+
+var b = spawn('watchify', oargs)
 b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
 
 var server = http.createServer(function(req, res){
 
     if(req.url === '/' + output){
-	fs.createReadStream('./' + output).pipe(res)
+		fs.createReadStream('./' + output).pipe(res)
     }
 
 /*
