@@ -11,14 +11,15 @@ Just whip up a module and
 opa -n -e *your-module.js*
 // server running at http://localhost:11001
 ```
-OPA will bundle your file, and serve a index.html. See [public/index.html](/public/index.html).  Your entry module will be watched for changes.
-If you have a static directory already, opa serve from that.
+OPA will bundle your file, and serve an index.html. See [public/index.html](/public/index.html).  
+Your entry module will be watched for changes and browserified each update.
+If you have a static directory already, opa serves static files from that.
 OPA!
 
 ## options
 ```
 -c [dirName] creates a new directory with dirName, creates index.js, entry.js, and copies OPA's public/ dir to dirName.  Useful for creating new modules.
--e [path to file.js] : declare your entry file, OPA looks for entry.js or index.js
+-e [path to entry.js] : declare your entry file, OPA looks for entry.js or index.js
 -o [path to bundled file.js] : sets your bundle path, defaults to bundle.js
 -s [static dir] : set your "public" directory if you have one. Opa will check for static/ www/ or public/, so if you have one of those, you can ignore this.
 -n : tells OPA you don't have a static/public dir, so it uses its own to serve your bundle
