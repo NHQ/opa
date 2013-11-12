@@ -1,85 +1,89 @@
 #!/usr/bin/env node
-var http = require('http')
-,   ecstatic = require('ecstatic')
-,   path = require('path')
-,   net = require('net')
-,   orgv = require('optimist').argv
-,   fs = require('fs')
-,   spawn = require('child_process').spawn
-,   port = orgv.p || 11001
-,   watch = orgv.w ? false : true
-,   public = orgv.s || 'static'
-,   output = 'bundle.js'
-,   app = 'index.js'
-,   cwd = process.cwd()
-,   command = 'watchify'
-,   dir
-;
 
-if(orgv.c){
-	fs.mkdirSync(path.resolve('./', orgv.c))
-	fs.writeFileSync(path.resolve('./', orgv.c) + '/index.js')
-	fs.writeFileSync(path.resolve('./', orgv.c) + '/entry.js')
-	spawn('cp', ['-R', __dirname + '/public', path.resolve('./', orgv.c)])
-	return
+var http = require('http'),
+  ecstatic = require('ecstatic'),
+  path = require('path'),
+  net = require('net'),
+  orgv = require('optimist')
+    .argv,
+  fs = require('fs'),
+  spawn = require('child_process')
+    .spawn,
+  port = orgv.p || 11001,
+  watch = orgv.w ? false : true,
+  public = orgv.s || 'static',
+  output = 'bundle.js',
+  app = 'index.js',
+  cwd = process.cwd(),
+  command = 'watchify',
+  dir;
+
+if (orgv.c) {
+  fs.mkdirSync(path.resolve('./', orgv.c))
+  fs.writeFileSync(path.resolve('./', orgv.c) + '/index.js')
+  fs.writeFileSync(path.resolve('./', orgv.c) + '/entry.js')
+  spawn('cp', ['-R', __dirname + '/public', path.resolve('./', orgv.c)])
+  return
 }
 
-if(process.argv[2] && process.argv[2].charAt(0).match(/[A-Za-z0-9]+/g)){
+if (process.argv[2] && process.argv[2].charAt(0)
+  .match(/[A-Za-z0-9]+/g)) {
   dir = cwd + '/' + process.argv[2]
-}
-
-else{
+} else {
   dir = process.cwd()
 }
 
-if(orgv.o){
+if (orgv.o) {
   output = orgv.o
 }
 
-if(orgv.w){
+if (orgv.w) {
   command = 'browserify'
 }
 
 var contents = fs.readdirSync(dir);
 
-contents.forEach(function(e){
-  var x  = e.toLowerCase()
-  if(x=='www') public = e;
-  else if(x=='public') public = e;  
-  if(x=='entry.js') app = e;
+contents.forEach(function(e) {
+  var x = e.toLowerCase()
+  if (x == 'www') public = e;
+  else if (x == 'public') public = e;
+  if (x == 'entry.js') app = e;
 })
 
-if(orgv.e){
+if (orgv.e) {
   app = orgv.e
 }
 
-if(orgv.n){ // no public, use local
+if (orgv.n) { // no public, use local
   public = 'public';
   dir = __dirname;
 }
 
 var opts = {
-    root       : dir + '/' + public, 
-    autoIndex  : true,
-    defaultExt : 'html'
+  root: dir + '/' + public,
+  autoIndex: true,
+  defaultExt: 'html'
 }
 
 var StaticPass = ecstatic(opts);
 
-var oargs =  ['-e', app, '-t', 'brfs', '-o', output]
+var oargs = ['-e', app, '-t', 'brfs', '-o', output]
 
-if(orgv.d) oargs.push('-d')
+if (orgv.d) oargs.push('-d')
 
 var b = spawn('watchify', oargs)
-b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
+b.stderr.on('data', function(data) {
+  console.log(data.toString('utf8'))
+});
 
-var server = http.createServer(function(req, res){
+var server = http.createServer(function(req, res) {
 
-    if(req.url === '/' + output){
-		fs.createReadStream('./' + output).pipe(res)
-    }
+  if (req.url === '/' + output) {
+    fs.createReadStream('./' + output)
+      .pipe(res)
+  }
 
-/*
+  /*
     if(req.url === '/' + output){
 	res.writeHead(200, {'Content-Type': 'text/javascript'});
 	var b = spawn(command, ['-e', app, '-t', 'brfs', '-d']);
@@ -87,32 +91,31 @@ var server = http.createServer(function(req, res){
 	b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
     }
 */
+  else StaticPass(req, res)
 
-    else StaticPass(req, res)
-    
 });
 
 server.listen(port);
 
-server.on('error', function(e){
-	if (e.code == 'EADDRINUSE') {
-		console.log('port ' + port + ' occupied. Use -p to set another port.')
-		process.exit();
-	}
+server.on('error', function(e) {
+  if (e.code == 'EADDRINUSE') {
+    console.log('port ' + port + ' occupied. Use -p to set another port.')
+    process.exit();
+  }
 });
 
-server.on('listening', function(){
+server.on('listening', function() {
 
-  if(!orgv.n) console.log('Server listening at http://localhost:' + port)
+  if (!orgv.n) console.log('Server listening at http://localhost:' + port)
 
-	else console.log('An empty html page with your module is being served at http://localhost:' + port)
+  else console.log('An empty html page with your module is being served at http://localhost:' + port)
 
 });
 
 
 function isPortTaken(PORT, callback) {
   var tester = net.createServer()
-  tester.once('error', function (err) {
+  tester.once('error', function(err) {
     if (err.code == 'EADDRINUSE') {
       callback(null, true)
     } else {
