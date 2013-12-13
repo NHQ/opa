@@ -34,6 +34,7 @@ else{
 
 if(orgv.o){
   output = orgv.o
+  output = path.resolve(cwd, output)
 }
 
 if(orgv.w){
@@ -70,12 +71,16 @@ var oargs =  ['-e', app, '-t', 'brfs', '-o', output]
 
 if(orgv.d) oargs.push('-d')
 
+app = path.resolve(cwd, app)
+console.log(app, output)
 var b = spawn('watchify', oargs)
+
 b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
 
 var server = http.createServer(function(req, res){
 
     if(req.url === '/' + output){
+	console.log(output)
 		fs.createReadStream('./' + output).pipe(res)
     }
 
