@@ -67,7 +67,7 @@ var opts = {
 
 var StaticPass = ecstatic(opts);
 
-var oargs =  ['-e', app, '-t', 'brfs', '-o', output]
+var oargs =  ['-e', app, '-o', output]
 
 if(orgv.d) oargs.push('-d')
 
