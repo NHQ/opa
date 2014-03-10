@@ -13,8 +13,8 @@
   "author": "Johnny Honestly <mostmodernist@gmail.com> (http://johnnyscript.us/)",
   "license": "MIT",
   "dependencies": {
-    "brfs": "",
     "ecstatic": "",
-    "optimist": ""
+    "optimist": "",
+    "sesame-stream":""
   }
 }

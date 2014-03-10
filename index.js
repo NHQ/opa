@@ -6,6 +6,7 @@ var http = require('http')
 ,   orgv = require('optimist').argv
 ,   fs = require('fs')
 ,   spawn = require('child_process').spawn
+,   openSesame = require('sesame-stream')
 ,   port = orgv.p || 11001
 ,   watch = orgv.w ? false : true
 ,   public = orgv.s || 'static'
@@ -96,6 +97,8 @@ var server = http.createServer(function(req, res){
     else StaticPass(req, res)
     
 });
+
+server.on('upgrade', openSesame)
 
 server.listen(port);
 
