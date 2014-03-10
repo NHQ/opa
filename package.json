@@ -1,6 +1,6 @@
 {
   "name": "opa",
-  "version": "10.2.0",
+  "version": "10.3.0",
   "description": "command line server + browserify",
   "main": "index.js",
   "bin": {
@@ -15,6 +15,6 @@
   "dependencies": {
     "ecstatic": "",
     "optimist": "",
-    "sesame-stream":""
+    "sesame-stream": ""
   }
 }
