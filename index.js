@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 var http = require('http')
-,   ecstatic = require('ecstatic')
+,   ecstatic = require('st')
 ,   path = require('path')
 ,   net = require('net')
 ,   orgv = require('optimist').argv
 ,   fs = require('fs')
 ,   spawn = require('child_process').spawn
-,   openSesame = require('sesame-stream')
+,   openSesame = require('../sesame-stream')
 ,   port = orgv.p || 11001
 ,   watch = orgv.w ? false : true
 ,   public = orgv.s || 'static'
@@ -61,9 +61,9 @@ if(orgv.n){ // no public, use local
 }
 
 var opts = {
-    root       : dir + '/' + public, 
-    autoIndex  : true,
-    defaultExt : 'html'
+    path       : dir + '/' + public, 
+    index  : 'index.html',
+    passthrough: true
 }
 
 var StaticPass = ecstatic(opts);
@@ -81,7 +81,6 @@ b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
 var server = http.createServer(function(req, res){
 
     if(req.url === '/' + output){
-	console.log(output)
 		fs.createReadStream('./' + output).pipe(res)
     }
 
@@ -94,8 +93,13 @@ var server = http.createServer(function(req, res){
     }
 */
 
-    else StaticPass(req, res)
-    
+    else {
+      var handled = StaticPass(req, res, next)
+      function next(){
+        res.writeHead(200, {'content-type' : 'text/html'})
+        fs.createReadStream(dir + '/' + public + '/index.html').pipe(res)
+      }
+    }
 });
 
 server.on('upgrade', openSesame)
