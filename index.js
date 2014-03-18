@@ -81,7 +81,7 @@ b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
 var server = http.createServer(function(req, res){
 
     if(req.url === '/' + output){
-		fs.createReadStream('./' + output).pipe(res)
+		fs.createReadStream(dir + '/' + output).pipe(res)
     }
 
 /*
