@@ -15,6 +15,7 @@
   "dependencies": {
     "st": "",
     "optimist": "",
-    "sesame-stream": "0.5.0"
+    "sesame-stream": "0.5.0",
+    "minimist" : ""
   }
 }
