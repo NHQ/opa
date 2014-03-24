@@ -7,7 +7,7 @@ var http = require('http')
 ,   vargs = require('minimist')(process.argv.slice(2))
 ,   fs = require('fs')
 ,   spawn = require('child_process').spawn
-,   openSesame = require('sesame-stream')
+,   openSesame = require('../sesame-stream')
 ,   port = orgv.p || 11001
 ,   watch = orgv.w ? false : true
 ,   public = orgv.s || 'static'
@@ -75,8 +75,8 @@ var oargs =  ['-e', app, '-o', output]
 if(orgv.d) oargs.push('-d')
 
 app = path.resolve(cwd, app)
-console.log(app, output)
-var b = spawn('watchify', process.argv.slice(2)) //oargs)
+console.log(dir, process.cwd())
+var b = spawn('watchify', process.argv.slice(2), {cwd: process.cwd()}) //oargs)
 
 b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
 
