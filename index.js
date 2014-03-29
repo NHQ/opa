@@ -65,7 +65,8 @@ if(orgv.n){ // no public, use local
 var opts = {
     path       : dir + '/' + public, 
     index  : 'index.html',
-    passthrough: true
+    passthrough: true,
+    cache: false
 }
 
 var StaticPass = ecstatic(opts);
