@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var http = require('http')
-,   ecstatic = require('st')
+,   ecstatic = require('ecstatic')
 ,   path = require('path')
 ,   net = require('net')
 ,   orgv = require('optimist').argv
@@ -18,7 +18,6 @@ var http = require('http')
 ,   dir
 ;
 
-console.log(vargs, process.argv)
 if(orgv.c){
   fs.mkdirSync(path.resolve('./', orgv.c))
   fs.writeFileSync(path.resolve('./', orgv.c) + '/index.js')
@@ -63,10 +62,9 @@ if(orgv.n){ // no public, use local
 }
 
 var opts = {
-    path       : dir + '/' + public, 
-    index  : 'index.html',
-    passthrough: true,
-    cache: false
+    root       : dir + '/' + public, 
+    showDir: true,
+    autoIndex: true
 }
 
 var StaticPass = ecstatic(opts);

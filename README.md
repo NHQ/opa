@@ -5,64 +5,33 @@ A quick command line bundler for prototyping front-end modules using [browserify
 ```bash
 npm install -g watchify opa
 ```
-
-Just whip up a module and 
-```bash
-opa -n -e *your-module.js*
-// server running at http://localhost:11001
-```
-OPA will bundle your file, and serve an index.html. See [public/index.html](/public/index.html).  
-Your entry module will be watched for changes and browserified each update.
-If you have a static directory already, opa serves static files from that.
-OPA!
-
-## options
-```
--c [dirName] creates a new directory with dirName, creates index.js, entry.js, and copies OPA's public/ dir to dirName.  Useful for creating new modules.
--e [path to entry.js] : declare your entry file, OPA looks for entry.js or index.js
--o [path to bundled file.js] : sets your bundle path, defaults to bundle.js
--s [static dir] : set your "public" directory if you have one. Opa will check for static/ www/ or public/, so if you have one of those, you can ignore this.
--n : tells OPA you don't have a static/public dir, so it uses its own to serve your bundle
--p [port number] : set port number, defaults to 11001
--d development - passes '-d' to browserify which makes testing easier
-```
-
-OPA uses the newest version of browserify, and also uses the [brfs](https://github.com/substack/brfs) [transform](https://github.com/substack/node-browserify#btransformtr) to turn fs.readFileSync() of any file (such as an html snippet) into strings you can use in your code.
-
-If you have an app directory...
+Now create a new app folder using opa:
 
 ```
-/myApp
-  /[public|static|www]
-    /css/style.css
-    index.html
-  /lib
-  entry.js|index.js
-```
-simply:
-```
-cd myApp/
-opa
+opa -c myAppDirname
+cd myAppDirname
 ```
 
-opa will write your bundle to the directory, watch it for changes and serve it up. And it will serve you public dir using [ecstatic](https://github.com/jesusabdullah/node-ecstatic).
+opa -c creates everything you need to get started.  There's an index.js, for your module, an entry.js for your pre-bundle, and a public folder for serving it all up.
 
-# Example
+Now write your module in index.js, and module.export it.
 
-opa defaults to the current directory, looks for entry.js or index.js, and bundles it for you. So you can simply
-``` bash
-$ cd app/
-$ opa
-open http://localhost:11001
-```
-or use it on a single file and it will be served in an empty HTML file 
-```bash
-/app$ cd ..
-$ opa -e _somefile.js_ -n -p 3000
-open http://localhost:3000
+index.js
+```js
+module.exports = function(x){return x + 4}
 ```
 
-# license
+in your entry.js, do:
+```js
+var fn = require('./')
+console.log(fn(12))
+```
 
-MIT
+then whip up the server with opa:
+```
+opa -e entry.js -o public/bundle.js
+```
+You app will be served up at a your localhost, port 11001 or greater.
+Note that all arguments are passed to browserify, so you can use browserify to full effect.
+
 
