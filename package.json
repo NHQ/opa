@@ -1,10 +1,10 @@
 {
-  "name": "opa",
-  "version": "10.16.0",
+  "name": "famous",
+  "version": "11.16.0",
   "description": "command line server + browserify",
   "main": "index.js",
   "bin": {
-    "opa": "index.js"
+    "famous": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
