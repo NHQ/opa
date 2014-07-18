@@ -1,6 +1,6 @@
 # famous!
 
-A quick command line bundler for prototyping front-end modules using [browserify](https://github.com/substack/node-browserify). As of the latest version of OPA, it uses browserify via [watchify](https://github.com/substack/watchify)
+A quick command line bundler for prototyping front-end, multi-user, real-time aplications using [browserify](https://github.com/substack/node-browserify). As of the latest version of OPA, it uses browserify via [watchify](https://github.com/substack/watchify)
 
 ```bash
 npm install -g watchify famous
@@ -33,6 +33,6 @@ famous -e entry.js -o public/bundle.js
 ```
 Your app will be served up at a your localhost, port 11001 or greater.
 You can edit the code, and b/c we're using watchify, your bundle will update automatically.  You have to refresh the page tho.
-Note that all arguments to opa are passed to browserify, so you can use browserify to full effect.
+Note that all arguments to famous are passed to browserify, so you can use browserify to full effect.
 
 
