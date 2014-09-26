@@ -1,5 +1,5 @@
 {
-  "name": "famous",
+  "name": "opa",
   "version": "11.19.0",
   "description": "command line server + browserify",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "git@github.com:NHQ/famous.git",
+  "repository": "git@github.com:NHQ/opa.git",
   "author": "Johnny Honestly <mostmodernist@gmail.com> (http://johnnyscript.us/)",
   "license": "MIT",
   "dependencies": {
