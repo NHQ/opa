@@ -1,6 +1,6 @@
 {
   "name": "famous",
-  "version": "11.18.0",
+  "version": "11.19.0",
   "description": "command line server + browserify",
   "main": "index.js",
   "bin": {
