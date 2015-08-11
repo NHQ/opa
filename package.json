@@ -4,18 +4,20 @@
   "description": "command line server + browserify",
   "main": "index.js",
   "bin": {
-    "famous": "index.js"
+    "opa": "index.js"
   },
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "git@github.com:NHQ/opa.git",
   "author": "Johnny Honestly <mostmodernist@gmail.com> (http://johnnyscript.us/)",
   "license": "MIT",
   "dependencies": {
+    "corsify": "^2.1.0",
     "ecstatic": "",
+    "minimist": "",
     "optimist": "",
-    "sesame-stream": "0.6.0",
-    "minimist": ""
+    "sesame-stream": "0.6.0"
   }
 }

@@ -6,11 +6,12 @@ var http = require('http')
 ,   orgv = require('optimist').argv
 ,   vargs = require('minimist')(process.argv.slice(2))
 ,   fs = require('fs')
+,   cors = require('corsify')
 ,   spawn = require('child_process').spawn
 ,   openSesame = require('sesame-stream')
 ,   port = orgv.p || 11001
 ,   watch = orgv.w ? false : true
-,   public = orgv.s || 'static'
+,   public = 'public'
 ,   output = 'bundle.js'
 ,   app = 'index.js'
 ,   cwd = process.cwd()
@@ -45,24 +46,12 @@ if(orgv.w){
 
 var contents = fs.readdirSync(dir);
 
-contents.forEach(function(e){
-  var x  = e.toLowerCase()
-  if(x=='www') public = e;
-  else if(x=='public') public = e;  
-  if(x=='entry.js') app = e;
-})
-
 if(orgv.e){
   app = orgv.e
 }
 
-if(orgv.n){ // no public, use local
-  public = 'public';
-  dir = __dirname;
-}
-
 var opts = {
-    root       : dir + '/' + public, 
+    root       : dir + '/public', 
     showDir: true,
     autoIndex: true
 }
@@ -74,25 +63,15 @@ var oargs =  ['-e', app, '-o', output]
 if(orgv.d) oargs.push('-d')
 
 app = path.resolve(cwd, app)
-console.log(dir, process.cwd())
+
 var b = spawn('watchify', process.argv.slice(2), {cwd: process.cwd()}) //oargs)
 
 b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
 
-var server = http.createServer(function(req, res){
-
-    if(req.url === '/' + output){
-    fs.createReadStream(dir + '/' + output).pipe(res)
+var server = http.createServer(cors(function(req, res){
+    if(false && req.url === '/' + output){
+      fs.createReadStream(dir + '/' + output).pipe(res)
     }
-
-/*
-    if(req.url === '/' + output){
-  res.writeHead(200, {'Content-Type': 'text/javascript'});
-  var b = spawn(command, ['-e', app, '-t', 'brfs', '-d']);
-  b.stdout.pipe(res);
-  b.stderr.on('data', function(data){ console.log(data.toString('utf8'))});
-    }
-*/
 
     else {
       var handled = StaticPass(req, res, next)
@@ -101,7 +80,7 @@ var server = http.createServer(function(req, res){
         fs.createReadStream(dir + '/' + public + '/index.html').pipe(res)
       }
     }
-});
+}));
 
 server.on('upgrade', openSesame)
 
